@@ -1,7 +1,7 @@
 # XML-parser
 Python parser that checks if current time is in record's opening and closing interval and adds the results to a copy of input XML file.
 ## Installation
-Make sure you have Python 3.8+ installed.
+Make sure you have Python 3.8+ and pip installed.
 ```bash
 git clone https://github.com/k-cichorski/XML-parser
 ```
