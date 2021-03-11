@@ -1,0 +1,2 @@
+lxml==4.6.2
+soupsieve==2.2
