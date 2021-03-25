@@ -3,7 +3,7 @@ import json
 from xml.etree import ElementTree as ET
 import time
 
-input_filename = 'feed_sample.xml'
+input_filename = 'feed.xml'
 output_filename = 'feed_out.xml'
 
 t0 = time.time()
@@ -45,7 +45,8 @@ tomorrow = (today + datetime.timedelta(days=1)).weekday() + 1
 
 xml_iter = ET.iterparse(input_filename)
 for event, elem in xml_iter:
-    for offer in elem.findall('offer'):
+    if elem.tag == "offer":
+        offer = elem
         is_active = None
         opening_times = json.loads(offer.find('opening_times').text)
         try:
@@ -75,6 +76,7 @@ for event, elem in xml_iter:
         offer.append(active_tag)
         offer_string = ET.tostring(offer, encoding="UTF-8")
         output.write(offer_string.decode())
+        offer.clear()
 
 
 total_active = ET.Element('total_active')
@@ -83,5 +85,6 @@ total_paused = ET.Element('total_paused')
 total_paused.text = str(paused_offers)
 
 output.write(f'\n<total_active>{active_offers}</total_active>\n<total_paused>{paused_offers}</total_paused>\n</offers>')
+output.close()
 
 print(f'Finished in {time.time() - t0} s.')
